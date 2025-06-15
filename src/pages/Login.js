@@ -1,7 +1,7 @@
-// src/pages/Login.js
 import React, { useState } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 import { useNavigate, Link } from 'react-router-dom'
+import 'bulma/css/bulma.min.css'
 
 export default function Login() {
   const [email, setEmail] = useState('')
@@ -17,34 +17,72 @@ export default function Login() {
       await login(email, password)
       navigate('/')
     } catch (err) {
-      setError(err.message)
+      setError('로그인 실패: ' + err.message)
     }
   }
 
   return (
-    <div className="auth-container">
-      <h2>로그인</h2>
-      {error && <p className="error">{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit">로그인</button>
-      </form>
-      <p>
-        계정이 없으신가요? <Link to="/register">회원가입</Link>
-      </p>
+    <div className="container mt-6">
+      <div className="column is-half is-offset-one-quarter">
+        <div className="box">
+          <h2 className="title is-4 has-text-centered mb-5">🔐 로그인</h2>
+
+          {error && (
+            <div className="notification is-danger is-light">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit}>
+            {/* 이메일 입력 */}
+            <div className="field">
+              <label className="label">이메일</label>
+              <div className="control">
+                <input
+                  className="input"
+                  type="email"
+                  placeholder="you@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+
+            {/* 비밀번호 입력 */}
+            <div className="field">
+              <label className="label">비밀번호</label>
+              <div className="control">
+                <input
+                  className="input"
+                  type="password"
+                  placeholder="비밀번호"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+
+            {/* 버튼 */}
+            <div className="field mt-5">
+              <div className="control">
+                <button type="submit" className="button is-primary is-fullwidth">
+                  로그인
+                </button>
+              </div>
+            </div>
+          </form>
+
+          {/* 회원가입 링크 */}
+          <p className="has-text-centered is-size-7 mt-4">
+            계정이 없으신가요?{' '}
+            <Link to="/register" className="has-text-link">
+              회원가입
+            </Link>
+          </p>
+        </div>
+      </div>
     </div>
   )
 }
